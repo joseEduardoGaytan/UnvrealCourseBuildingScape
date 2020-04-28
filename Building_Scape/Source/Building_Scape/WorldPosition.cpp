@@ -2,6 +2,7 @@
 
 
 #include "WorldPosition.h"
+#include "GameFramework/Actor.h"
 
 // Sets default values for this component's properties
 UWorldPosition::UWorldPosition()
@@ -19,10 +20,19 @@ void UWorldPosition::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Display, TEXT("This is a Display!"));
-	UE_LOG(LogTemp, Warning, TEXT("This is a Warning!"));
-	UE_LOG(LogTemp, Error, TEXT("This is an Error!"));
+	//// Pointer is the memory address of something
+	//FString Log = TEXT("Hello");
+	//FString* PtrLog = &Log;
+
+	//(*PtrLog).Len(); // To access the properties and member of the pointed object
+	//PtrLog->Len(); // Another way to access to the reference members
+	//
+	//// UE_LOG(LogTemp, Warning, TEXT("%s"), *Log);	
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), **PtrLog);	
 	
+	FString ActorName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *ActorName);
+
 }
 
 
