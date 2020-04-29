@@ -30,8 +30,15 @@ void UWorldPosition::BeginPlay()
 	//// UE_LOG(LogTemp, Warning, TEXT("%s"), *Log);	
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), **PtrLog);	
 	
-	FString ActorName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *ActorName);
+	AActor *Owner = GetOwner();
+	FString ActorName = Owner->GetName();
+	//UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *ActorName);
+
+	// Are the same
+	FString ObjectPostition = Owner->GetTransform().GetLocation().ToString();
+	FString ActorLocation = Owner->GetActorLocation().ToString();
+	FString ActorTransformLocation = Owner->GetActorTransform().GetLocation().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("The Object: %s is at position: %s; Actor Location: %s; Actor Transform Location: %s"), *ActorName, *ObjectPostition, *ActorLocation, *ActorTransformLocation);
 
 }
 
