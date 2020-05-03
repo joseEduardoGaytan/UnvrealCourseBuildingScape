@@ -23,6 +23,7 @@ void UOpenDoor::BeginPlay()
 	float RotateTo = 90.f;
 
 	// float InPitch => y, InYaw => z, InRoll => x
+	// we can set the rotation directly to the CurrentRotation object
 	FRotator CurrentRotation = GetOwner()->GetActorRotation();
 
 	// Rotate the door 90 degrees
