@@ -19,18 +19,7 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	float RotateTo = 90.f;
-
-	// float InPitch => y, InYaw => z, InRoll => x
-	// we can set the rotation directly to the CurrentRotation object
-	FRotator CurrentRotation = GetOwner()->GetActorRotation();
-
-	// Rotate the door 90 degrees
-	FRotator NewRotation = FRotator(CurrentRotation);
-	NewRotation.Yaw = RotateTo;
-	GetOwner()->SetActorRotation(NewRotation);
-	
+			
 }
 
 
@@ -39,6 +28,17 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// float InPitch => y, InYaw => z, InRoll => x
+	// we can set the rotation directly to the CurrentRotation object
+	FRotator CurrentRotation = GetOwner()->GetActorRotation();
+
+	// Rotate the door with linear interpolation, which we are using exponential interpolation indeed.
+	// starting Yaw until target yaw from 0-1*
+	float AnimationQuickness = 0.02f;
+	float RotateTo = FMath::Lerp(CurrentRotation.Yaw, this->TargetYaw, AnimationQuickness);
+	// Rotate the door 90 degrees
+	FRotator NewRotation(CurrentRotation);
+	NewRotation.Yaw = RotateTo;
+	GetOwner()->SetActorRotation(NewRotation);
 }
 
