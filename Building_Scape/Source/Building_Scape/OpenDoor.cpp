@@ -35,10 +35,18 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	// Rotate the door with linear interpolation, which we are using exponential interpolation indeed.
 	// starting Yaw until target yaw from 0-1*
 	float AnimationQuickness = 0.02f;
-	float RotateTo = FMath::Lerp(CurrentRotation.Yaw, this->TargetYaw, AnimationQuickness);
+	// Exponential interpolation
+	//float RotateTo = FMath::Lerp(CurrentRotation.Yaw, this->TargetYaw, AnimationQuickness);
+
+	// Lineal Interpolation
+	//float RotateTo = FMath::FInterpConstantTo(CurrentRotation.Yaw, this->TargetYaw, DeltaTime, 45);
+	float RotateTo = FMath::FInterpTo(CurrentRotation.Yaw, this->TargetYaw, DeltaTime, 2);
+
 	// Rotate the door 90 degrees
 	FRotator NewRotation(CurrentRotation);
 	NewRotation.Yaw = RotateTo;
 	GetOwner()->SetActorRotation(NewRotation);
+
+
 }
 
