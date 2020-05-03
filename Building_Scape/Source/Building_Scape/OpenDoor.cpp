@@ -20,12 +20,14 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
+	float RotateTo = 90.f;
+
 	// float InPitch => y, InYaw => z, InRoll => x
 	FRotator CurrentRotation = GetOwner()->GetActorRotation();
 
 	// Rotate the door 90 degrees
 	FRotator NewRotation = FRotator(CurrentRotation);
-	NewRotation.Yaw = 90;
+	NewRotation.Yaw = RotateTo;
 	GetOwner()->SetActorRotation(NewRotation);
 	
 }
