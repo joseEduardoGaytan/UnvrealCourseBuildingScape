@@ -22,7 +22,8 @@ void UOpenDoor::BeginPlay()
 
 	this->InitialYaw = GetOwner()->GetActorRotation().Yaw;
 	this->CurrentYaw = this->InitialYaw;
-	this->TargetYaw = this->InitialYaw + 90.f;
+	// The target yaw already set by the user in unreal editor plus the initial yaw
+	this->TargetYaw += this->InitialYaw;
 			
 }
 

@@ -27,6 +27,9 @@ public:
 private:
 	float InitialYaw;
 	float CurrentYaw;
-	float TargetYaw;
+
+	// Place it as a property in Unreal Editor
+	UPROPERTY(EditAnywhere)
+	float TargetYaw = 90.f;
 		
 };
