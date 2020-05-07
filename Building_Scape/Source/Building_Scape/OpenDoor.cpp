@@ -45,6 +45,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// Lineal Interpolation
 	//float RotateTo = FMath::FInterpConstantTo(CurrentRotation.Yaw, this->TargetYaw, DeltaTime, 45);
+	// It doesn't matter the rate, it always open at the same time
 	this->CurrentYaw = FMath::FInterpTo(this->CurrentYaw, this->TargetYaw, DeltaTime, 2);
 
 	// Rotate the door 90 degrees
