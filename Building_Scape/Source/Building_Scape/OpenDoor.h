@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Engine/TriggerVolume.h"
 #include "OpenDoor.generated.h"
 
 
@@ -23,6 +24,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	// Method that opens the door
+	virtual void OpenDoor(float DeltaTime);
 
 private:
 	float InitialYaw;
@@ -31,5 +34,11 @@ private:
 	// Place it as a property in Unreal Editor
 	UPROPERTY(EditAnywhere)
 	float TargetYaw = 90.f;
+
+	UPROPERTY(EditAnywhere)
+	ATriggerVolume* PressurePlate;
+
+	UPROPERTY(EditAnywhere)
+	AActor* ActorThatOpens;
 		
 };
