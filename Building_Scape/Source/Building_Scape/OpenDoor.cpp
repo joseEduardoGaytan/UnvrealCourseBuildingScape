@@ -49,22 +49,29 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		//Open the door
 		this->OpenDoor(DeltaTime);
+		// Get the time when the door opened last time
+		this->DoorLastOpened = GetWorld()->GetTimeSeconds();
 	}
 	else if(this->PressurePlate && this->ActorThatOpens)
 	{
-		this->CloseDoor(DeltaTime);
+		// add a delay in function of the last time the door was opened
+		float CurrentTime = GetWorld()->GetTimeSeconds();
+		float DiffTime = CurrentTime - this->DoorLastOpened;
+		if (DiffTime >= this->DoorCloseDelay)
+		{
+			this->CloseDoor(DeltaTime);
+		}
 	}
-
 }
 
 void UOpenDoor::OpenDoor(float DeltaTime) 
 {
-	this->AnimateDoor(DeltaTime, this->TargetYaw, 2.f);
+	this->AnimateDoor(DeltaTime, this->TargetYaw, this->OpenDoorTime);
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime)
 {		
-	this->AnimateDoor(DeltaTime, this->InitialYaw, 2.f);	
+	this->AnimateDoor(DeltaTime, this->InitialYaw, this->CloseDoorTime);	
 }
 
 void UOpenDoor::AnimateDoor(float DeltaTime, float FinalYaw, float AnimationQuickness)
