@@ -23,7 +23,7 @@ void UOpenDoor::BeginPlay()
 	this->InitialYaw = GetOwner()->GetActorRotation().Yaw;
 	this->CurrentYaw = this->InitialYaw;
 	// The target yaw already set by the user in unreal editor plus the initial yaw
-	this->TargetYaw += this->InitialYaw;
+	this->OpenAngle += this->InitialYaw;
 
 	// report when a pressure plate is not set
 	if (!this->PressurePlate)
@@ -66,12 +66,12 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 void UOpenDoor::OpenDoor(float DeltaTime) 
 {
-	this->AnimateDoor(DeltaTime, this->TargetYaw, this->OpenDoorTime);
+	this->AnimateDoor(DeltaTime, this->OpenAngle, this->DoorOpenSpeed);
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime)
 {		
-	this->AnimateDoor(DeltaTime, this->InitialYaw, this->CloseDoorTime);	
+	this->AnimateDoor(DeltaTime, this->InitialYaw, this->DoorCloseSpeed);	
 }
 
 void UOpenDoor::AnimateDoor(float DeltaTime, float FinalYaw, float AnimationQuickness)

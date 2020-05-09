@@ -39,24 +39,25 @@ private:
 
 	// Place it as a property in Unreal Editor
 	UPROPERTY(EditAnywhere)
-	float TargetYaw = 90.f;
-
+	float OpenAngle = 90.f;
+	
+	/* Door Behaviour */
+	// Door Close And Opening Speed
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
-
+	float DoorOpenSpeed = 1.5f;
 	UPROPERTY(EditAnywhere)
-	AActor* ActorThatOpens;
-
-	// Door Behaviour
-	// Door Close And Opening Velocity
-	UPROPERTY(EditAnywhere)
-	float OpenDoorTime = 1.5f;
-	UPROPERTY(EditAnywhere)
-	float CloseDoorTime = 4.f;
+	float DoorCloseSpeed = 4.f;
 
 	// Door Close Delay
 	float DoorLastOpened = 0.f;
 	UPROPERTY(EditAnywhere)
 	float DoorCloseDelay = 0.5f;
+
+	/* Interaction Objects */
+	UPROPERTY(EditAnywhere)
+	ATriggerVolume* PressurePlate;
+
+	UPROPERTY(EditAnywhere)
+	AActor* ActorThatOpens;
 		
 };
