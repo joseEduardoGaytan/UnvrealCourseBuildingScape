@@ -24,6 +24,13 @@ void UOpenDoor::BeginPlay()
 	this->CurrentYaw = this->InitialYaw;
 	// The target yaw already set by the user in unreal editor plus the initial yaw
 	this->TargetYaw += this->InitialYaw;
+
+	// report when a pressure plate is not set
+	if (!this->PressurePlate)
+	{
+		FString ActorName = this->GetOwner()->GetName();
+		UE_LOG(LogTemp, Error, TEXT("The Object: %s has the open Door component on it, but no Pressure Plate set yet"), *ActorName);
+	}
 			
 }
 
