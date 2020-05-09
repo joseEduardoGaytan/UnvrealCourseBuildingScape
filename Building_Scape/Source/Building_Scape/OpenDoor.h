@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 #include "Engine/TriggerVolume.h"
 #include "OpenDoor.generated.h"
 

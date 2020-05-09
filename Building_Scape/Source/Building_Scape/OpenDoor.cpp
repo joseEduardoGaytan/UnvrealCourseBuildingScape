@@ -31,6 +31,10 @@ void UOpenDoor::BeginPlay()
 		FString ActorName = this->GetOwner()->GetName();
 		UE_LOG(LogTemp, Error, TEXT("The Object: %s has the open Door component on it, but no Pressure Plate set yet"), *ActorName);
 	}
+
+	// Set the pawn that open doors, in the past we have to set it at run time by ejecting the components
+	// and set it as a property while we are playing
+	this->ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 			
 }
 
