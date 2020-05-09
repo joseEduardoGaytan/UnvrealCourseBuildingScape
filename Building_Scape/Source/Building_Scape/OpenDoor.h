@@ -26,8 +26,12 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	// Method that abstracts common code for the door closing and opening
+	virtual void AnimateDoor(float DeltaTime, float FinalYaw, float AnimationQuickness);
 	// Method that opens the door
 	virtual void OpenDoor(float DeltaTime);
+	// Method that closes the door
+	virtual void CloseDoor(float DeltaTime);
 
 private:
 	float InitialYaw;

@@ -50,10 +50,24 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		//Open the door
 		this->OpenDoor(DeltaTime);
 	}
+	else if(this->PressurePlate && this->ActorThatOpens)
+	{
+		this->CloseDoor(DeltaTime);
+	}
 
 }
 
 void UOpenDoor::OpenDoor(float DeltaTime) 
+{
+	this->AnimateDoor(DeltaTime, this->TargetYaw, 2.f);
+}
+
+void UOpenDoor::CloseDoor(float DeltaTime)
+{		
+	this->AnimateDoor(DeltaTime, this->InitialYaw, 2.f);	
+}
+
+void UOpenDoor::AnimateDoor(float DeltaTime, float FinalYaw, float AnimationQuickness)
 {
 	// float InPitch => y, InYaw => z, InRoll => x
 	// we can set the rotation directly to the CurrentRotation object
@@ -61,14 +75,14 @@ void UOpenDoor::OpenDoor(float DeltaTime)
 
 	// Rotate the door with linear interpolation, which we are using exponential interpolation indeed.
 	// starting Yaw until target yaw from 0-1*
-	float AnimationQuickness = 2.f;
+	//float AnimationQuickness = 2.f;
 	// Exponential interpolation
 	//float RotateTo = FMath::Lerp(CurrentRotation.Yaw, this->TargetYaw, AnimationQuickness);
 
 	// Lineal Interpolation
 	//float RotateTo = FMath::FInterpConstantTo(CurrentRotation.Yaw, this->TargetYaw, DeltaTime, 45);
 	// It doesn't matter the rate, it always open at the same time
-	this->CurrentYaw = FMath::FInterpTo(this->CurrentYaw, this->TargetYaw, DeltaTime, AnimationQuickness);
+	this->CurrentYaw = FMath::FInterpTo(this->CurrentYaw, FinalYaw, DeltaTime, AnimationQuickness);
 
 	// Rotate the door 90 degrees
 	/*FRotator NewRotation(CurrentRotation);
