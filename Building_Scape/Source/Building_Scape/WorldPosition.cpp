@@ -39,8 +39,7 @@ void UWorldPosition::BeginPlay()
 	FString ActorLocation = Owner->GetActorLocation().ToString();
 	FString ActorTransformLocation = Owner->GetActorTransform().GetLocation().ToString();
 	// We place UE_LOG a pointer *ActorName becaus is expecting a TCHAR array, and the * effectively converts the string to this type
-	UE_LOG(LogTemp, Warning, TEXT("The Object: %s is at position: %s; Actor Location: %s; Actor Transform Location: %s"), *ActorName, *ObjectPostition, *ActorLocation, *ActorTransformLocation);
-
+	UE_LOG(LogTemp, Warning, TEXT("The Object: %s is at position: %s; Actor Location: %s; Actor Transform Location: %s"), *ActorName, *ObjectPostition, *ActorLocation, *ActorTransformLocation);	
 }
 
 
