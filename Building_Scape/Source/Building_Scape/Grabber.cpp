@@ -41,9 +41,9 @@ void UGrabber::BeginPlay()
 
 	this->InputComponent = Owner->FindComponentByClass<UInputComponent>();
 	if (this->InputComponent)
-	{			
-		UE_LOG(LogTemp, Warning, TEXT("Input component found"));
+	{
 		this->InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		this->InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 	else
 	{
@@ -106,6 +106,11 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 void UGrabber::Grab()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Press"));
+	UE_LOG(LogTemp, Warning, TEXT("Grabber Pressed"));
+}
+
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grabber Released"));
 }
 
