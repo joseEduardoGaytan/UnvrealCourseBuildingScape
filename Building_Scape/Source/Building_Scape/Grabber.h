@@ -16,14 +16,15 @@ class BUILDING_SCAPE_API UGrabber : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UGrabber();
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	// Grabber callback functions
+	void Grab();
+	void Release();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
 	// The "arms" distance
@@ -31,8 +32,10 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr; // Initialize with a null pointer in order to not brake unreal
 	UInputComponent* InputComponent = nullptr;
 
-	void Grab();
-	void Release();
+	void FindPhysicsHandle();
+	void InitInputComponent();
 
-		
+	// Return the first Actor within reach with physics body
+	bool IsAPhysicsBodyToReach(FHitResult &OutHit);
+			
 };
