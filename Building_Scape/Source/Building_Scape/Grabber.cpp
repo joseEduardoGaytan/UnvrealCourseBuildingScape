@@ -24,7 +24,19 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty"));
+	// Checking for Physics handle component
+	// We use get owner as it is the same component and we use the dimond notation to bring the only
+	// UPhysicsHandleComponent already added to the component
+	this->PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+
+	if (this->PhysicsHandle)
+	{		
+		UE_LOG(LogTemp, Warning, TEXT("Actual Physics Handler: %s"), *this->PhysicsHandle->GetName());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("The Physics handle is not set on %s"), *GetOwner()->GetName());
+	}
 	
 }
 
@@ -73,10 +85,10 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	);
 
 	// See what it hits
-	UE_LOG(LogTemp, Warning, TEXT("Actor hit: %d"), bObjectHits);
+	/*UE_LOG(LogTemp, Warning, TEXT("Actor hit: %d"), bObjectHits);
 	if (bObjectHits && Hit.GetActor())
 	{		
 		UE_LOG(LogTemp, Warning, TEXT("Actor hit: %s"), *Hit.GetActor()->GetName());
-	}
+	}*/
 }
 
