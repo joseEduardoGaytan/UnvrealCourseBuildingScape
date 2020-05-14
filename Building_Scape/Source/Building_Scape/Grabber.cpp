@@ -27,7 +27,8 @@ void UGrabber::BeginPlay()
 	// Checking for Physics handle component
 	// We use get owner as it is the same component and we use the dimond notation to bring the only
 	// UPhysicsHandleComponent already added to the component
-	this->PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	AActor* Owner = GetOwner();
+	this->PhysicsHandle = Owner->FindComponentByClass<UPhysicsHandleComponent>();
 
 	if (this->PhysicsHandle)
 	{		
@@ -35,7 +36,18 @@ void UGrabber::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("The Physics handle is not set on %s"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("The Physics handle is not set on %s"), *Owner->GetName());
+	}
+
+	this->InputComponent = Owner->FindComponentByClass<UInputComponent>();
+	if (this->InputComponent)
+	{			
+		UE_LOG(LogTemp, Warning, TEXT("Input component found"));
+		this->InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Input comopnent not sent %s"), *Owner->GetName());
 	}
 	
 }
@@ -90,5 +102,10 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	{		
 		UE_LOG(LogTemp, Warning, TEXT("Actor hit: %s"), *Hit.GetActor()->GetName());
 	}*/
+}
+
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grabber Press"));
 }
 

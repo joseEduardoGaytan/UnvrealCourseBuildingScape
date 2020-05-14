@@ -29,6 +29,9 @@ private:
 	// The "arms" distance
 	float Reach = 100.f;
 	UPhysicsHandleComponent* PhysicsHandle = nullptr; // Initialize with a null pointer in order to not brake unreal
+	UInputComponent* InputComponent = nullptr;
+
+	void Grab();
 
 		
 };
