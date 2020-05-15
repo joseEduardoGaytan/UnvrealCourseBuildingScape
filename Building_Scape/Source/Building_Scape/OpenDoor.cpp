@@ -34,11 +34,7 @@ void UOpenDoor::BeginPlay()
 		FString ActorName = this->GetOwner()->GetName();
 		UE_LOG(LogTemp, Error, TEXT("The Object: %s has the open Door component on it, but no Pressure Plate set yet"), *ActorName);
 	}
-
-	// Set the pawn that open doors, in the past we have to set it at run time by ejecting the components
-	// and set it as a property while we are playing
-	this->ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
-			
+					
 }
 
 
@@ -47,8 +43,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// Check for nulls
-	//if (this->PressurePlate && this->ActorThatOpens && this->PressurePlate->IsOverlappingActor(this->ActorThatOpens))
+	// Check for nulls	
 	if (this->TotalMassOfActors() > this->MassToOpenTheDoor)
 	{
 		//Open the door
@@ -56,7 +51,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		// Get the time when the door opened last time
 		this->DoorLastOpened = GetWorld()->GetTimeSeconds();
 	}
-	else if(this->PressurePlate && this->ActorThatOpens)
+	else if(this->PressurePlate)
 	{
 		// add a delay in function of the last time the door was opened
 		float CurrentTime = GetWorld()->GetTimeSeconds();
@@ -108,12 +103,15 @@ float UOpenDoor::TotalMassOfActors() const
 
 	// Find all Overlapping actors
 	TArray<AActor*> OverlappingActors;
-	this->PressurePlate->GetOverlappingActors(OUT OverlappingActors);
-		
-	for(AActor* OverlappingActor: OverlappingActors)
+	if (this->PressurePlate)
 	{
-		float ActorsMass = OverlappingActor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
-		TotalMass += ActorsMass;
+		this->PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+		
+		for(AActor* OverlappingActor: OverlappingActors)
+		{
+			float ActorsMass = OverlappingActor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+			TotalMass += ActorsMass;
+		}
 	}
 
 	// Add up their masses

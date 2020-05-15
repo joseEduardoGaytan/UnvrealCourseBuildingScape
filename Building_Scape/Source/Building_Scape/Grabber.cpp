@@ -60,6 +60,8 @@ void UGrabber::InitInputComponent()
 {
 	AActor* Owner = GetOwner();
 	this->InputComponent = Owner->FindComponentByClass<UInputComponent>();
+
+	// Subscribe input component to the callbacks
 	if (this->InputComponent)
 	{
 		this->InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
@@ -78,12 +80,13 @@ void UGrabber::Grab()
 	FHitResult Hit;
 	FVector LineTraceEnd = this->GetPlayerReach();
 	bool bObjectHits = this->IsAPhysicsBodyToReach(OUT Hit);
-
-	UE_LOG(LogTemp, Warning, TEXT("Actor hit: %d"), bObjectHits);
-	if (bObjectHits && Hit.GetActor())
+	AActor* ActorHit = (bObjectHits) ? Hit.GetActor() : nullptr;
+	
+	//UE_LOG(LogTemp, Warning, TEXT("Actor hit: %d"), bObjectHits);
+	if (this->PhysicsHandle && bObjectHits && ActorHit)
 	{
 		UPrimitiveComponent* ComponentToGrab = Hit.GetComponent();
-		UE_LOG(LogTemp, Warning, TEXT("Actor hit: %s"), *Hit.GetActor()->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Actor hit: %s"), *ActorHit->GetName());
 		// Attach physics handle
 		this->PhysicsHandle->GrabComponentAtLocation(
 			ComponentToGrab,
@@ -96,9 +99,13 @@ void UGrabber::Grab()
 void UGrabber::Release()
 {
 	// remove/release the physics handle if any object
-	if (this->PhysicsHandle && this->PhysicsHandle->GetGrabbedComponent())
+	if (this->PhysicsHandle)
 	{
-		this->PhysicsHandle->ReleaseComponent();
+		UPrimitiveComponent* GrabbedComponent = this->PhysicsHandle->GetGrabbedComponent();
+		if (GrabbedComponent)
+		{
+			this->PhysicsHandle->ReleaseComponent();
+		}
 	}
 }
 
