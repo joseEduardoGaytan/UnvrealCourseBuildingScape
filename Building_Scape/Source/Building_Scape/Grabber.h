@@ -32,10 +32,13 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr; // Initialize with a null pointer in order to not brake unreal
 	UInputComponent* InputComponent = nullptr;
 
+	// User scope reach
+	FVector GetUserReach();
+
 	void FindPhysicsHandle();
 	void InitInputComponent();
 
 	// Return the first Actor within reach with physics body
-	bool IsAPhysicsBodyToReach(FHitResult &OutHit);
+	bool IsAPhysicsBodyToReach(FHitResult &OutHit);	
 			
 };
