@@ -33,12 +33,12 @@ private:
 	UInputComponent* InputComponent = nullptr;
 
 	// User scope reach
-	FVector GetUserReach();
+	FVector GetPlayerReach() const;
 
 	void FindPhysicsHandle();
 	void InitInputComponent();
 
 	// Return the first Actor within reach with physics body
-	bool IsAPhysicsBodyToReach(FHitResult &OutHit);	
+	bool IsAPhysicsBodyToReach(FHitResult &OutHit) const;	
 			
 };
