@@ -32,7 +32,10 @@ public:
 	virtual void OpenDoor(float DeltaTime);
 	// Method that closes the door
 	virtual void CloseDoor(float DeltaTime);
+	// Get the mass kilos of the components
 	float TotalMassOfActors() const;
+	// For the audio
+	void FindAudioComponent();
 
 private:
 	float InitialYaw;
@@ -60,5 +63,10 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	float MassToOpenTheDoor = 50.f;
+
+	UPROPERTY()
+	UAudioComponent* AudioComponent = nullptr;
+
+	bool OpenDoorSoundPlayed = false;
 
 };

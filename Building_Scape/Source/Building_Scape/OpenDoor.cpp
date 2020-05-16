@@ -2,6 +2,7 @@
 
 
 #include "OpenDoor.h"
+#include "Components/AudioComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
 
@@ -13,8 +14,7 @@ UOpenDoor::UOpenDoor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	
 }
 
 
@@ -22,6 +22,8 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	this->FindAudioComponent();
 
 	this->InitialYaw = GetOwner()->GetActorRotation().Yaw;
 	this->CurrentYaw = this->InitialYaw;
@@ -66,11 +68,26 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 void UOpenDoor::OpenDoor(float DeltaTime) 
 {
 	this->AnimateDoor(DeltaTime, this->OpenAngle, this->DoorOpenSpeed);
+
+	// Play sound and toggle the sound flag when door opens
+	if (this->AudioComponent && !this->OpenDoorSoundPlayed)
+	{		
+		this->OpenDoorSoundPlayed = true;
+		this->AudioComponent->Play();
+	}
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime)
 {		
-	this->AnimateDoor(DeltaTime, this->InitialYaw, this->DoorCloseSpeed);	
+	this->AnimateDoor(DeltaTime, this->InitialYaw, this->DoorCloseSpeed);
+
+	// Play sound and toggle the sound flag when door closes
+	if (this->AudioComponent && this->OpenDoorSoundPlayed)
+	{
+		this->OpenDoorSoundPlayed = false;
+		this->AudioComponent->Play();
+	}
+
 }
 
 void UOpenDoor::AnimateDoor(float DeltaTime, float FinalYaw, float AnimationQuickness)
@@ -116,4 +133,20 @@ float UOpenDoor::TotalMassOfActors() const
 
 	// Add up their masses
 	return TotalMass;
+}
+
+void UOpenDoor::FindAudioComponent()
+{
+	AActor* CurrentComponent = GetOwner();
+	this->AudioComponent = CurrentComponent->FindComponentByClass<UAudioComponent>();
+
+	// Prevent the sounds to play at start
+	if (this->AudioComponent)
+	{
+		this->AudioComponent->Stop();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s Missing Audio component!"), *CurrentComponent->GetName());
+	}
 }
