@@ -29,7 +29,9 @@ protected:
 private:
 	// The "arms" distance
 	float Reach = 100.f;
+	UPROPERTY()
 	UPhysicsHandleComponent* PhysicsHandle = nullptr; // Initialize with a null pointer in order to not brake unreal
+	UPROPERTY()
 	UInputComponent* InputComponent = nullptr;
 
 	// User scope reach
